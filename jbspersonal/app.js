@@ -19,8 +19,40 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+
+app.use(function(req,res,next){
+  console.log("about to look for routes!!!")
+  //console.dir(req.headers)
+  next()
+});
+
+
+app.get('/', function(req, res, next) {
+  res.render('index',{title:"Express Demo"});
+});
+app.get('/login', function(req, res, next) {
+  res.render('login',{title:"login"});
+});
+
+app.get('/donation', function(req, res, next) {
+  res.render('donation',{title:"donation"});
+});
+app.get('/ContactUs', function(req, res, next) {
+  res.render('ContactUs',{title:"ContactUs"});
+});
+
+app.use(function(req,res,next){
+  console.log("about to look for post routes!!!")
+  next()
+});
+
+function processFormData(req,res,next){
+  res.render('formdata',
+     {title:"Form Data",Name:req.body.Name,Email:req.body.Email,Subject:req.body.Subject, Details:req.body.Details});
+}
+
+app.post('/processform', processFormData);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

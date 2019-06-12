@@ -1,0 +1,17 @@
+<%- include('bootheader') -%>
+<%- include('menubar') -%>
+    <div class="jumbotron">
+        <h1>How Can We Help?</h1><br>
+        <p>&nbspPlease leave a message below</p>
+    </div>
+
+    <form method="post" action="/processform">
+      Name: <br><input type="text" name="Name"> <br><br>
+      Email: <br><input type="text" name="Email"> <br><br>
+      Subject: <br><input type="text" name="Subject"> <br><br>
+      Details: <br><textarea name="Details"></textarea><br>
+      <br><br>
+      <input type="submit">
+    </form>
+
+<%- include('bootfooter') -%>
