@@ -1,0 +1,17 @@
+<%- include('bootheader') -%>
+<%- include('menubar') -%>
+    <div class="jumbotron">
+        <h1>ContactUs Database</h1>
+    </div>
+    <ol>
+    <% for(i = 0; i<Comments.length; i++){  %>
+        <li> <a href="<%= Comments[i].Name %>">
+              <%= Comments[i].Name %></a>
+              <i>
+             <%= Comments[i].Email %>
+              <%= Comments[i].Subject %>
+               <%= Comments[i].Details %>
+             </\/i> </li>
+    <% } %>
+    </ol>
+<%- include('bootfooter') -%>

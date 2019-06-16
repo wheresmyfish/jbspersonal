@@ -7,6 +7,16 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const mongoose = require( 'mongoose' );
+mongoose.connect( 'mongodb://localhost/mydb' );
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("we are connected!")
+});
+
+const CommentsController = require('./controllers/CommentsController.js')
+
 var app = express();
 
 // view engine setup
@@ -42,6 +52,8 @@ app.get('/ContactUs', function(req, res, next) {
   res.render('ContactUs',{title:"ContactUs"});
 });
 
+
+
 app.use(function(req,res,next){
   console.log("about to look for post routes!!!")
   next()
@@ -52,7 +64,9 @@ function processFormData(req,res,next){
      {title:"Form Data",Name:req.body.Name,Email:req.body.Email,Subject:req.body.Subject, Details:req.body.Details});
 }
 
-app.post('/processform', processFormData);
+app.post('/processform',CommentsController.saveComments);
+
+app.get('/showComments',CommentsController.getAllComments);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
