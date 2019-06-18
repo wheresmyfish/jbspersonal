@@ -40,3 +40,25 @@ exports.getAllComments = ( req, res ) => {
       //console.log( 'skill promise complete' );
     } );
 };
+
+exports.getOneComment = ( req, res ) => {
+   //gconsle.log('in getAllSkills')
+   const id = req.params.id
+   console.log('the id is '+id)
+   Comments.findOne({_id:id})
+     .exec()
+     .then( ( comment ) => {
+       console.log("comment is:")
+       console.dir(comment)
+       res.render( 'comment', {
+         comment:comment, title:"Comment"
+       } );
+     } )
+     .catch( ( error ) => {
+       console.log( error.message );
+       return [];
+     } )
+     .then( () => {
+       //console.log( 'skill promise complete' );
+     } );
+ };

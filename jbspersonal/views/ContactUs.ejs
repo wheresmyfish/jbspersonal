@@ -11,7 +11,12 @@
       Subject: <br><input type="text" name="Subject"> <br><br>
       Details: <br><textarea name="Details"></textarea><br>
       <br><br>
-      <input type="submit">
+      <% if (loggedIn) { %>
+      <input type="submit">		 
+      <% } else { %>
+        You must be logged in to submit form info.
+        <% } %>
+
     </form>
 
 <%- include('bootfooter') -%>
