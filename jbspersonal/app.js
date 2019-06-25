@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var apikey = require('./config/apikey');
+
 
 // AUTHENTICATION MODULES
 	session = require("express-session"),
@@ -24,6 +26,7 @@ db.once('open', function() {
 });
 
 const CommentsController = require('./controllers/CommentsController.js')
+const profileController = require('./controllers/profileController')
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 	// here we set up authentication with passport
@@ -144,8 +147,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 	            user : req.user // get the user out of session and pass to template
 	        });*/
 	    });
+	app.get('/editProfile',isLoggedIn,(req,res)=>{
+		res.render('editProfile')
+	})
+
+	app.post('/updateProfile',profileController.update)
+
+	app.get('/profiles', isLoggedIn, profileController.getAllProfiles);
+	 app.get('/showProfile/:id', isLoggedIn, profileController.getOneProfile);
+
+
+
 
 	// END OF THE AUTHENTICATION ROUTES
+
+ 	//edit profile
+
+
 
 app.use(function(req,res,next){
   console.log("about to look for routes!!!")

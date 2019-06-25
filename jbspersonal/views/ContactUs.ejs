@@ -1,21 +1,20 @@
 <%- include('bootheader') -%>
 <%- include('menubar') -%>
+<br><br><br>
     <div class="jumbotron">
         <h1>How Can We Help?</h1><br>
         <p>&nbspPlease leave a message below</p>
     </div>
 
     <form method="post" action="/processform">
-      Name: <br><input type="text" name="Name"> <br><br>
-      Email: <br><input type="text" name="Email"> <br><br>
-      Subject: <br><input type="text" name="Subject"> <br><br>
-      Details: <br><textarea name="Details"></textarea><br>
+      Name: <br><input type="text" name="Name" value="Add Name here"> <br><br>
+      Email: <br><input type="text" name="Email" value="Add Email here"> <br><br>
+      Subject: <br><input type="text" name="Subject" value="Add Subject here"> <br><br>
+      Details: <br><textarea name="Details">Add Details here</textarea><br>
       <br><br>
-      <% if (loggedIn) { %>
-      <input type="submit">		 
-      <% } else { %>
-        You must be logged in to submit form info.
-        <% } %>
+
+      <input type="submit">
+
 
     </form>
 
