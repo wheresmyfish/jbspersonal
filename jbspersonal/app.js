@@ -180,10 +180,14 @@ app.get('/', function(req, res, next) {
 app.get('/donation', function(req, res, next) {
   res.render('donation',{title:"donation"});
 });
+
+app.get('/bmi', function(req, res, next) {
+  res.render('bmi',{title:"bmi"});
+});
+
 app.get('/ContactUs', function(req, res, next) {
   res.render('ContactUs',{title:"ContactUs"});
 });
-
 
 
 app.use(function(req,res,next){
