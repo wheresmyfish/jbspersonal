@@ -17,8 +17,11 @@ var apikey = require('./config/apikey');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const MONGODB_URI = "mongodb://heroku_p1nhtqph:t1mj0l1s7qltmoprpk04g6cu8g@ds245927.mlab.com:45927/heroku_p1nhtqph"
 const mongoose = require( 'mongoose' );
-mongoose.connect( 'mongodb://localhost/mydb' );
+mongoose.connect( MONGODB_URI,{useNewUrlParser: true});
+//mongoose.connect( 'mongodb://localhost/mydb' );
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
