@@ -6,6 +6,9 @@ var logger = require('morgan');
 var apikey = require('./config/apikey');
 
 
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+
 // AUTHENTICATION MODULES
 	session = require("express-session"),
 	bodyParser = require("body-parser"),
@@ -14,13 +17,11 @@ var apikey = require('./config/apikey');
 	// END OF AUTHENTICATION MODULES
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
-const MONGODB_URI = "mongodb://heroku_p1nhtqph:t1mj0l1s7qltmoprpk04g6cu8g@ds245927.mlab.com:45927/heroku_p1nhtqph"
+//const MONGODB_URI = "mongodb://heroku_p1nhtqph:t1mj0l1s7qltmoprpk04g6cu8g@ds245927.mlab.com:45927/heroku_p1nhtqph"
 const mongoose = require( 'mongoose' );
-mongoose.connect( MONGODB_URI,{useNewUrlParser: true});
-//mongoose.connect( 'mongodb://localhost/mydb' );
+//mongoose.connect( MONGODB_URI,{useNewUrlParser: true});
+mongoose.connect( 'mongodb://localhost/mydb' );
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -30,6 +31,9 @@ db.once('open', function() {
 
 const CommentsController = require('./controllers/CommentsController.js')
 const profileController = require('./controllers/profileController')
+const forumPostController = require('./controllers/forumPostController')
+//added
+const recipeController = require('./controllers/recipeController')
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 	// here we set up authentication with passport
@@ -64,11 +68,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-	const approvedLogins = ["tjhickey724@gmail.com","csjbs2018@gmail.com"];
+	const approvedLogins = ["xly18ling@gmail.com","cathyxie@brandeis.edu"];
 
 	// here is where we check on their logged in status
 	app.use((req,res,next) => {
-	  res.locals.title="YellowCartwheel"
+	  res.locals.title="Game Randomizer"
 	  res.locals.loggedIn = false
 	  if (req.isAuthenticated()){
 	    if (true || req.user.googleemail.endsWith("@brandeis.edu") ||
@@ -81,9 +85,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 	    else {
 	      res.locals.loggedIn = false
 	    }
-	    console.log('req.user = ')
-	    console.dir(req.user)
-	    // here is where we can handle whitelisted logins ...
 
 	  }
 	  next()
@@ -157,11 +158,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 	app.post('/updateProfile',profileController.update)
 
 	app.get('/profiles', isLoggedIn, profileController.getAllProfiles);
-	 app.get('/showProfile/:id', isLoggedIn, profileController.getOneProfile);
+	app.get('/showProfile/:id', isLoggedIn, profileController.getOneProfile);
 
+//added
+	app.get('/forum',forumPostController.getAllForumPosts)
 
-
-
+	app.post('/forum',forumPostController.saveForumPost)
+//
 	// END OF THE AUTHENTICATION ROUTES
 
  	//edit profile
@@ -188,6 +191,17 @@ app.get('/bmi', function(req, res, next) {
   res.render('bmi',{title:"bmi"});
 });
 
+//added
+app.get('/myform', function(req, res, next) {
+	  res.render('myform',{title:"Form Demo"});
+	});
+function processFormData(req,res,next){
+		  res.render('formdata',
+		     {title:"Form Data",url:req.body.url, coms:req.body.theComments})
+		}
+		//
+
+
 app.get('/ContactUs', function(req, res, next) {
   res.render('ContactUs',{title:"ContactUs"});
 });
@@ -207,6 +221,12 @@ app.post('/processform',CommentsController.saveComments);
 
 app.get('/showComments',CommentsController.getAllComments);
 app.get('/showComment/:id',CommentsController.getOneComment)
+
+app.get('/recipes',recipeController.getAllRecipe)
+
+app.post('/recipes',recipeController.saveRecipes)
+
+app.post('/recipesDelete',recipeController.deleteRecipe)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

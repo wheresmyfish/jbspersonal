@@ -1,0 +1,41 @@
+<%- include('bootheader') -%>
+<%- include('menubar') -%>
+
+<br><br><br>
+
+    <form method="post" action="/recipes">
+      Name of the dish: <input type="text" name="dishName"> <br>
+      Ingredients in the dish:<br>
+      <textarea name="dishIngre" rows="5" cols="80"></textarea>
+
+      <br>
+
+      Description of how to make the dish:<br>
+      <textarea name="dishDescription" rows="5" cols="80"></textarea>
+
+      <br>
+      <input class="btn btn-lg btn-warning" type="submit">
+    </form>
+
+    <form method="post" action="/recipesDelete">
+    <input type="submit" value="delete marked">
+    <ol>
+    <% for(i = 0; i<recipes.length; i++){  %>
+    <li>
+      <%= recipes[i].userName %>
+      <%= recipes[i].dish_createdAt %>
+      <% console.dir([recipes[i].userId,user._id]) %>
+     	<% if (recipes[i].userId.equals(user._id)) { %>
+
+      <input type="checkbox" name="delete" value="<%= recipes[i]._id %>">
+       <% } %>
+      <br>
+      <p>Dish Name: <%= recipes[i].dishName %></p >
+      <p>Ingredients: <%= recipes[i].dishIngre %></p >
+      <p>How to make the dish: <%= recipes[i].dishDescription %></p >
+    </li>
+    <% } %>
+  </ol>
+</form>
+
+<%- include('bootfooter') -%>
