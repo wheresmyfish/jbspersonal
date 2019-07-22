@@ -2,8 +2,36 @@
 <%- include('menubar') -%>
 <br><br><br>
     <div class="jumbotron">
-        <h1>Game Randomizer (Working title..)</h1><br><br>
-        <p>Description, how to play, etc</p>
+        <h1>Stupid Web Randomizer</h1><br><br>
+        <p>Take me to a stupid web pls</p>
+
+
+      <script>
+
+          const webs = [
+              'http://burymewithmymoney.com/',
+              'http://endless.horse/',
+              'http://www.staggeringbeauty.com/',
+              'http://eelslap.com/',
+              'http://www.koalastothemax.com/'
+          ];
+
+          function randomWeb(webs) {
+             return webs[Math.floor(Math.random() * webs.length)];
+          }
+
+          function a(webs){
+            window.open(randomWeb(webs), '_top');
+          }
+
+
+      </script>
+
+
+
+
+   <a class="btn btn-primary" href="javascript:a(webs)" role="button">Go!</a>
+
     </div>
 
 <%- include('bootfooter') -%>

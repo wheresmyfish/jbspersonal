@@ -72,7 +72,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 	// here is where we check on their logged in status
 	app.use((req,res,next) => {
-	  res.locals.title="Game Randomizer"
+	  res.locals.title="Stupid Web Randomizer"
 	  res.locals.loggedIn = false
 	  if (req.isAuthenticated()){
 	    if (true || req.user.googleemail.endsWith("@brandeis.edu") ||
@@ -161,10 +161,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 	app.get('/showProfile/:id', isLoggedIn, profileController.getOneProfile);
 
 //added
-	app.get('/forum',forumPostController.getAllForumPosts)
+app.get('/forum',forumPostController.getAllForumPosts)
 
-	app.post('/forum',forumPostController.saveForumPost)
-//
+app.post('/forum',forumPostController.saveForumPost)
+
+app.post('/forumDelete',forumPostController.deleteForumPost)
+
+app.get('/showPost/:id',
+			forumPostController.attachAllForumComments,
+			forumPostController.showOnePost)
+
+app.get('/showPostComments/:id',
+			forumPostController.attachAllForumComments,
+			(req,res)=>{
+				res.render('forumPostComments',{title:"comments"})
+			})
+
+app.post('/saveForumComment',forumPostController.saveForumComment)
+
 	// END OF THE AUTHENTICATION ROUTES
 
  	//edit profile
